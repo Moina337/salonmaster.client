@@ -1,0 +1,114 @@
+<nav class="max-w-6xl mx-auto mt-6 px-4" aria-label="Breadcrumb">
+  <ol class="flex items-center space-x-2 text-sm text-gray-500 font-medium">
+    <!-- Accueil -->
+    <li class="flex items-center">
+      <a routerLink="/" class="hover:text-blue-600 transition-colors flex items-center">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+        </svg>
+        Accueil
+      </a>
+    </li>
+
+    <!-- Séparateur -->
+    <li>
+      <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+      </svg>
+    </li>
+
+    <!-- Salon -->
+    <li class="flex items-center">
+      <a routerLink="/salons" class="hover:text-blue-600 transition-colors">
+        Salons
+      </a>
+    </li>
+
+    <!-- Séparateur -->
+    <li>
+      <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+      </svg>
+    </li>
+
+    <!-- Service Actuel (Dernier item est souvent grisé et non cliquable) -->
+    <li class="text-gray-900 font-bold truncate max-w-[150px] sm:max-w-none">
+      {{ service()?.nom }}
+    </li>
+  </ol>
+</nav>
+<div class="max-w-6xl mx-auto mt-10 p-4">
+  <!-- SECTION HAUT : Image Principale + Infos -->
+  <div class="flex flex-col md:flex-row gap-8 bg-white p-6 rounded-3xl shadow-xl border border-gray-100">
+    
+    <!-- À GAUCHE : L'image principale (la première du tableau) -->
+    <div class="w-full md:w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+      @if (service()?.images && service()?.images!.length > 0) {
+        <img 
+          [src]="'http://localhost:8080/uploads/' + service()?.images![0].nom" 
+          [alt]="service()?.nom"
+          class="w-full h-full object-cover">
+      } @else {
+        <div class="w-full h-full flex items-center justify-center text-gray-400 italic">
+          Aucune image
+        </div>
+      }
+    </div>
+
+    <!-- À DROITE : Les informations -->
+    <div class="w-full md:w-1/2 flex flex-col justify-center">
+      <div class="flex justify-between items-start mb-4">
+        <h1 class="text-4xl font-black text-gray-900 leading-tight">{{ service()?.nom }}</h1>
+      </div>
+      
+      <div class="flex items-center gap-2 mb-6">
+        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">
+          ID: #{{ service()?.id }}
+        </span>
+      </div>
+
+      <p class="text-gray-600 text-lg leading-relaxed mb-8 whitespace-pre-line">
+        {{ service()?.description }}
+      </p>
+
+      <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="p-4 bg-gray-50 rounded-2xl">
+          <span class="block text-sm text-gray-500 font-semibold uppercase">Prix</span>
+          <span class="text-3xl font-bold text-blue-600">{{ service()?.prix | number:'1.2-2' }} €</span>
+        </div>
+        <div class="p-4 bg-gray-50 rounded-2xl">
+          <span class="block text-sm text-gray-500 font-semibold uppercase">Durée</span>
+          <span class="text-xl font-bold text-gray-800">{{ service()?.duree || '---' }}</span>
+        </div>
+      </div>
+
+      <button class="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold py-4 rounded-2xl transition shadow-lg shadow-blue-200">
+        Réserver maintenant
+      </button>
+    </div>
+  </div>
+
+  <!-- SECTION BAS : Galerie de toutes les images -->
+  <div class="mt-12">
+    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+      <span class="w-8 h-1 bg-blue-600 rounded-full mr-3"></span>
+      Galerie Photos
+    </h3>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      @for (img of service()?.images; track img.nom) {
+        <div class="group relative aspect-square rounded-2xl overflow-hidden border-2 border-transparent hover:border-blue-500 transition cursor-pointer shadow-sm">
+          <img 
+            [src]="'http://localhost:8080/uploads/' + img.nom" 
+            [alt]="service()?.nom"
+            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+          <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+        </div>
+      } @empty {
+        <div class="col-span-full py-10 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400">
+          Aucune photo supplémentaire disponible.
+        </div>
+      }
+    </div>
+  </div>
+</div>

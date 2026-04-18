@@ -8,6 +8,10 @@ import { Dashboard } from './MonSalon/dashboard/dashboard';
 import { Sidebar } from './layouts/sidebar/sidebar';
 import { AjouterSalon } from './visiteurPage/ajouter-salon/ajouter-salon';
 import { Connexion } from './visiteurPage/connexion/connexion';
+import { AjouterService } from './MonSalon/ajouter-service/ajouter-service';
+import { Service } from './visiteurPage/service/service';
+import { AjouterHoraire } from './MonSalon/ajouter-horaire/ajouter-horaire';
+import { ModifInfoSalon } from './MonSalon/modif-info-salon/modif-info-salon';
 
 export const routes: Routes = [
     {
@@ -22,6 +26,19 @@ export const routes: Routes = [
                 path: 'dashboard',
                 component: Dashboard
             },
+            {
+                path: 'ajouter-service',
+                component: AjouterService
+            },
+            {
+                path: 'ajouter-horaire',
+                component: AjouterHoraire
+            },
+            {
+                path: 'modif-info-salon',
+                component: ModifInfoSalon
+            }
+
              
         ]
     },
@@ -36,7 +53,11 @@ export const routes: Routes = [
             {
                 path: 'salon/:id',
                 component: SalonDetailComponent
-            }
+            },
+            {
+                path: 'service/:id',
+                component: Service
+            }    
 
         ]
      },

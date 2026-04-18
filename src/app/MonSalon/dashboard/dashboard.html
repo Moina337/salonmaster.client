@@ -35,15 +35,12 @@
           <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-400 mb-0.5">Établissement</p>
           <h2 class="font-display text-xl font-bold text-ink-900">{{salon()?.nom}}</h2>
         </div>
-        <button
-          onclick="document.getElementById('edit-modal-notice').classList.toggle('hidden')"
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-600 border border-ink-200 px-3 py-1.5 rounded-lg hover:bg-ink-50 hover:border-gold-400 hover:text-gold-600 transition duration-200 whitespace-nowrap"
-        >
+        <a href="/mon-salon/modif-info-salon" class="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-600 border border-ink-200 px-3 py-1.5 rounded-lg hover:bg-ink-50 hover:border-gold-400 hover:text-gold-600 transition duration-200 whitespace-nowrap">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
           </svg>
           Modifier
-        </button>
+        </a>
       </div>
 
       <!-- Notice inline (toggle) -->
@@ -139,9 +136,12 @@
       <h2 class="text-lg font-semibold text-gray-800">Services</h2>
       <p class="text-xs text-gray-400 mt-1">Prestations disponibles</p>
     </div>
-    <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-lg transition">
+    <a href="/mon-salon/ajouter-service" class="inline-flex items-center gap-2 text-xs font-semibold text-ink-600 border border-ink-200 px-4 py-2.5 rounded-xl hover:bg-ink-50 hover:border-gold-400 hover:text-gold-600 transition duration-200">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
       Ajouter
-    </button>
+    </a>
   </div>
 
   <!-- Cards -->
@@ -156,10 +156,11 @@
       <div class="group bg-gray-50 rounded-xl overflow-hidden hover:shadow-md transition">
         <div class="h-40 overflow-hidden">
           <img 
-    src=""
-  [alt]="service.nom"
-  class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-/>
+        [src]=" 'http://localhost:8080/uploads/' + service.images?.[0]?.nom 
+          || 'https://via.placeholder.com/400x300?text=Pas+d%27image' "
+        [alt]="service.nom"
+        class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+      />
         </div>
         <div class="p-4 space-y-2">
           <p class="font-semibold text-gray-800">{{service.nom}}</p>
@@ -191,10 +192,12 @@
         <h2 class="font-display text-lg font-bold text-ink-900">Horaires d'ouverture</h2>
         <p class="text-xs text-ink-400 mt-0.5">6 jours sur 7 · Dimanche fermé</p>
       </div>
-      <button class="inline-flex items-center gap-2 text-xs font-semibold text-ink-600 border border-ink-200 px-4 py-2.5 rounded-xl hover:bg-ink-50 hover:border-gold-400 hover:text-gold-600 transition duration-200 self-start sm:self-auto">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+       <a href="/mon-salon/ajouter-horaire" class="inline-flex items-center gap-2 text-xs font-semibold text-ink-600 border border-ink-200 px-4 py-2.5 rounded-xl hover:bg-ink-50 hover:border-gold-400 hover:text-gold-600 transition duration-200">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
         Modifier les horaires
-      </button>
+      </a>
     </div>
 
     <!-- Grid des jours -->
