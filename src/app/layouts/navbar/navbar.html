@@ -1,0 +1,60 @@
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50" style="background: rgba(250,247,242,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e8e0d4;">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="logo-mark" style="background:#0F0E0C;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="2" stroke-linecap="round">
+            <path d="M14 2C14 2 12 6 12 10C12 14 14 18 14 22"/>
+            <path d="M10 2C10 2 12 6 12 10C12 14 10 18 10 22"/>
+            <line x1="7" y1="7" x2="17" y2="7"/>
+            <line x1="7" y1="17" x2="17" y2="17"/>
+          </svg>
+        </div>
+        <span class="font-display text-xl font-semibold tracking-tight" style="color:#0F0E0C;">
+          Barber<span style="color:#C9A96E;">OS</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-10">
+        <a href="#" class="nav-link">Accueil</a>
+        <a href="#" class="nav-link">Salons</a>
+        <a href="#" class="nav-link">Tarifs</a>
+        <a href="#" class="nav-link">À propos</a>
+      </nav>
+
+      <!-- Actions Desktop -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="/connexion" class="nav-link text-sm">Connexion</a>
+        <a href="/ajouter-salon" class="btn-login uppercase tracking-widest text-xs font-medium">
+          Essai gratuit
+        </a>
+      </div>
+
+      <!-- Hamburger Mobile -->
+      <button id="menuBtn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu md:hidden px-6 py-4 gap-1">
+    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Accueil</a>
+    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Salons</a>
+    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Tarifs</a>
+    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">À propos</a>
+    <div class="pt-4 flex flex-col gap-3">
+      <a href="#" class="text-sm text-center py-2.5 border border-gray-300 tracking-wide" style="color:#3a3632;">Connexion</a>
+      <a href="#" class="btn-login text-center uppercase tracking-widest text-xs font-medium py-3">Essai gratuit</a>
+    </div>
+  </div>
+</header>
+
+<router-outlet></router-outlet>

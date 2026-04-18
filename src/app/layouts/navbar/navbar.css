@@ -1,0 +1,57 @@
+:root {
+      --gold: #C9A96E;
+      --cream: #FAF7F2;
+      --noir: #0F0E0C;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .nav-link {
+      position: relative;
+      color: #3a3632;
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      transition: color 0.25s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover { color: var(--noir); }
+    .nav-link:hover::after { width: 100%; }
+    .btn-login {
+      background: var(--noir);
+      color: var(--cream);
+      border: 1px solid var(--noir);
+      font-size: 0.8125rem;
+      letter-spacing: 0.06em;
+      padding: 0.5rem 1.5rem;
+      transition: background 0.25s, color 0.25s;
+    }
+    .btn-login:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--noir);
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--cream);
+      border-top: 1px solid #e5ddd2;
+    }
+    .mobile-menu.open { display: flex; }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--noir);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 16px; height: 16px; }
+    .hamburger-line {
+      display: block; width: 20px; height: 1.5px;
+      background: var(--noir);
+      transition: all 0.3s ease;
+    }

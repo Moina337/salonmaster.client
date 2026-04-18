@@ -1,0 +1,94 @@
+ :root { --gold: #C9A96E; --cream: #FAF7F2; --noir: #0F0E0C; }
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: #1a1815; }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    /* Navbar */
+    .nav-link { color: #4a4540; font-size: 0.875rem; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-link:hover { color: var(--noir); }
+    .logo-mark { width: 30px; height: 30px; background: var(--noir); display: flex; align-items: center; justify-content: center; }
+
+    /* Search */
+    .search-input {
+      border: 1px solid #ddd4c6;
+      background: #fff;
+      padding: 0.75rem 1.25rem 0.75rem 3rem;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .search-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,169,110,0.12); }
+    .filter-select {
+      border: 1px solid #ddd4c6;
+      background: #fff;
+      padding: 0.65rem 2.5rem 0.65rem 1rem;
+      font-size: 0.85rem;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      color: #4a4540;
+      transition: border-color 0.2s;
+    }
+    .filter-select:focus { border-color: var(--gold); }
+    .filter-wrap { position: relative; }
+    .filter-wrap::after {
+      content: '';
+      position: absolute; right: 0.75rem; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid #9a9087;
+      pointer-events: none;
+    }
+
+    /* Cards */
+    .salon-card {
+      background: #fff;
+      border: 1px solid #ece5db;
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .salon-card:hover { box-shadow: 0 12px 40px rgba(15,14,12,0.1); transform: translateY(-3px); }
+    .salon-card img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s; }
+    .salon-card:hover img { transform: scale(1.04); }
+    .img-wrap { overflow: hidden; position: relative; }
+    .badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--noir); color: var(--cream);
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+    }
+    .badge-gold { background: var(--gold); color: var(--noir); }
+    .star { color: var(--gold); }
+    .btn-detail {
+      display: block; width: 100%;
+      background: transparent;
+      border: 1px solid var(--noir);
+      color: var(--noir);
+      text-align: center;
+      padding: 0.65rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.25s, color 0.25s;
+      cursor: pointer;
+    }
+    .btn-detail:hover { background: var(--noir); color: var(--cream); }
+
+    /* Pagination */
+    .page-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid #ddd4c6;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #4a4540;
+    }
+    .page-btn:hover, .page-btn.active { background: var(--noir); color: var(--cream); border-color: var(--noir); }

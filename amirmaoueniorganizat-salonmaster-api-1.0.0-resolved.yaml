@@ -1,0 +1,930 @@
+openapi: 3.0.3
+info:
+  title: SalonMaster API
+  description: API de gestion des salons de beauté et prise de rendez-vous
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+
+tags:
+  - name: Auth
+  - name: Utilisateur
+  - name: Public
+  - name: Salon
+  - name: Service
+  - name: RendezVous
+  - name: Avis
+  - name: Horaire
+  - name: Indisponibilite
+  - name: Admin
+
+
+
+paths:
+
+  /auth/inscription:
+    post:
+      tags: [Auth]
+      summary: Inscription utilisateur
+      operationId: inscriptionUtilisateur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtilisateurInscriptionDTO'
+      responses:
+        '201':
+          description: Utilisateur créé
+      security: []     
+
+  /auth/salon-inscription:
+    post:
+      tags: [Auth]
+      summary: Inscription salon
+      operationId: creationSalon
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalonInscriptionDTO'
+      responses:
+        '201':
+          description: Salon créé
+      security: []     
+
+  /auth/connexion:
+    post:
+      tags: [Auth]
+      summary: connexion 
+      operationId: connexion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnexionDTO'
+      responses:
+        '201':
+          description: Retourne un token JWT
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/AuthResponse'  
+      security: []                
+  
+  /utilisateurs:
+    get:
+      tags: [Utilisateur]
+      summary: Liste des utilisateur
+      operationId: listeDesUtilisateur
+      security:
+        - bearerAuth: []
+      responses: 
+        '200':
+          description: utilisateurs trouvés
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items: 
+                 $ref: '#/components/schemas/UtilisateurDTO'
+
+  /utilisateurs/me:
+    get:
+      tags: [Utilisateur]
+      summary: Profil utilisateur
+      operationId: afficherMonProfil
+      security: 
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profil affiché
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UtilisateurDTO'
+
+  /utilisateurs/me/update-info:
+    put:
+      tags: [Utilisateur]
+      summary: Modifier informations
+      operationId: modifProfilInfo
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtilisateurInformationUpdateDTO'
+      responses:
+        '200':
+          description: Informations modifiées
+
+  /utilisateurs/me/update-password:
+    put:
+      tags: [Utilisateur]
+      summary: Modifier mot de passe
+      operationId: modifMotDePasse
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MotDePasseUpdateDTO'
+      responses:
+        '200':
+          description: Mot de passe modifié
+
+  /salons:
+    get: 
+      tags: [Salon]
+      summary: afficher la Liste des salons 
+      operationId: listerTousLesSolons
+      security: 
+        - bearerAuth: []
+      responses: 
+        '200':
+          description: Liste des salon affiché
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items: 
+                 $ref: '#/components/schemas/SalonDTO'  
+
+  /salons/{id}:
+    get: 
+      tags: [Salon]
+      summary: afficher une salon par son Identifiant
+      operationId: afficherSalonParId
+      security: 
+        - bearerAuth: []
+      parameters: 
+         - $ref: '#/components/parameters/SalonId'
+      responses: 
+        '200':
+          description: salon trouvé
+          content: 
+            application/json: 
+              schema:
+                 $ref: '#/components/schemas/SalonDetail'
+    put:
+      tags: [Salon]
+      summary: modifier le statut du salon 
+      operationId: modificationStatutService
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/SalonId'
+      requestBody:
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/ModifierStatutSalonDTO'
+      responses:
+        '200':
+          description: statut du salon salon modifié                    
+    
+  /salons/me:
+    get: 
+      tags: [Salon]
+      summary: afficher mon salon  
+      operationId: afficherMonSalon
+      security: 
+        - bearerAuth: []
+      responses: 
+        '200':
+          description: mon salon est afffiché avec succès
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/SalonDetail'
+        
+    put:
+      tags: [Salon]
+      summary: modifier les Informations de mon Salon
+      operationId: modifInforSalon
+      security: 
+        - bearerAuth: []
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/SalonUpdateProfilDTO'
+      responses: 
+        '200':
+          description: les informations sont bien modifiées    
+
+  /salons/me/imageProfil:
+    put:
+      tags: [Salon]
+      summary: modifier l'image de profil de mon salon 
+      operationId: modifImageProfil 
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content: 
+          multipart/form-data: 
+            schema: 
+              type: object
+              properties:
+                imageProfil:
+                  type: string 
+                  format: binary
+      responses:
+        '200':
+          description: Image de profil modifiée avec succès
+    delete: 
+      tags: [Salon]   
+      summary: supprimer l'image de profil de mon salon 
+      operationId: supprimerImageProfil
+      responses:
+        '200':
+          description: image de profil supprimée avec succès
+
+  /salons/me/publier:
+    put:
+      tags: [Salon]
+      summary: Publier mon salon
+      operationId: publierMonSalon
+      security:
+        - bearerAuth: []  
+      responses:
+        "200":
+          description: statut modifié   
+
+  /salons/me/ouvrir:
+    put:
+      tags: [Salon]
+      summary: Ouvrir mon salon
+      operationId: ouvrirMonSalon
+      security:
+        - bearerAuth: []    
+      responses:
+        "200":
+          description: statut modifié 
+
+  /salons/me/fermer:
+    put:
+      tags: [Salon]
+      summary: Fermer mon salon
+      operationId: fermerMonSalon
+      security:
+        - bearerAuth: []  
+      responses:
+        "200":
+          description: statut modifié         
+
+  /public/salons:
+    get:
+      tags: [Public]
+      summary: Liste des salons
+      operationId: afficheDesSalonCotePublic
+      responses:
+        '200':
+          description: Liste salons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalonDTO'
+
+  /public/salons/{id}:
+    get:
+      tags: [Public]
+      summary: Détail salon avec services
+      operationId: salonDetailCotePublic
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Salon
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalonDetail'
+                 
+  /services:
+    get:
+      tags: [Service]
+      summary: afficher la liste des Service
+      operationId: listeDesServices
+      security: 
+        - bearerAuth: []
+      responses: 
+        "200":
+          description: leste des services 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/ServiceDTO'
+    post:
+      tags: [Service]
+      summary: ajouter une service 
+      operationId: ajouterUneService
+      security: 
+        - bearerAuth: []
+      requestBody: 
+        content:
+          multipart/form-data: 
+            schema: 
+              type: object
+              properties: 
+                service:
+                  allOf: 
+                    - $ref: '#/components/schemas/ServiceCreateDTO'
+                  description: JSON du service
+                  example: '{"nom":"Coupe","prix":1000,"categorie":1}'
+                image:
+                  type: array
+                  items: 
+                    type: string
+                    format: binary
+            encoding:
+             service:
+              contentType: application/json                   
+      responses: 
+        "201":
+          description: Service ajouté avec succès 
+
+  /services/{id}:
+    get: 
+      tags: [Service]
+      summary: chercher service par Identifiant
+      operationId: chercherServiceParId
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/ServiceId'
+      responses: 
+        '200':
+          description: service existe
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/ServiceDTO'
+    put: 
+      tags: [Service]
+      summary: modifier les informations d'une service
+      operationId: modifierInfoService
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/ServiceId' 
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              $ref: '#/components/schemas/ServiceupdateInfo'  
+      responses: 
+        '200':
+          description: service modifié avec succès   
+    delete: 
+      tags: [Service]
+      summary: supprimer une Service
+      operationId: supprimerUneService
+      parameters: 
+        - $ref: '#/components/parameters/ServiceId'
+      responses: 
+        '200':
+          description: Service supprimé avec succès               
+
+  /rendez-vous:
+    post:
+      tags: [RendezVous]
+      summary: Créer rendez-vous
+      operationId: prendreUnRendezVous
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RendezVousCreateDTO'
+      responses:
+        '201':
+          description: Rendez-vous créé
+
+    get:
+      tags: [RendezVous]
+      summary: Liste rendez-vous
+      operationId: afficherListeDesRendezVous
+      security: 
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RendezVousDTO'
+
+  /rendez-vous/{id}:
+    get:
+      tags: [RendezVous]
+      summary: afficher un rendez-vous par son Identifiant
+      operationId: afficheerUnRrnderVousParId
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/RendezVousId'
+      responses:
+        '200':
+          description: rendez-vous affiché avec succès
+          content: 
+            application/json: 
+              schema:
+                items: 
+                  $ref: '#/components/schemas/RendezVousDTO'
+                  
+
+  /rendez-vous/{id}/annuler:
+    put:
+      tags: [RendezVous]
+      summary: Annuler un rendez-vous 
+      operationId: annulerUnRendezVous
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/RendezVousId'  
+      responses:
+        '200':
+          description: rendez-vous annulé  
+
+  /rendez-vous/{id}/confirmer:
+    put:
+      tags: [RendezVous]
+      summary: confirmer un rendez-vous 
+      operationId: confirmerUnRendezVous
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/RendezVousId'  
+      responses:
+        '200':
+          description: rendez-vous confirmé   
+
+  /rendez-vous/{id}/terminer:
+    put:
+      tags: [RendezVous]
+      summary: confirmer un rendez-vous 
+      operationId: terminerUnRendezVous
+      security: 
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/RendezVousId'  
+      responses:
+        '200':
+          description: rendez-vous confirmé                      
+
+  /avis/{salonId}:
+    post:
+      tags: [Avis]
+      summary: Ajouter avis
+      operationId: ajoutAvis
+      security: 
+        - bearerAuth: []
+      parameters:
+        - name: salonId
+          in: path
+          required: true
+          schema:
+           type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvisAjoutDTO'
+      responses:
+        '201':
+          description: Avis ajouté
+
+    get:
+      tags: [Avis]
+      summary: Liste avis
+      operationId: afficherTousLesAvis
+      security: 
+        - bearerAuth: []
+      parameters:
+        - name: salonId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Avis
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvisDTO'
+
+  /horaires:
+    post:
+      tags: [Horaire]
+      summary: Ajouter horaire
+      operationId: ajouterHoraire
+      security: 
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+               $ref: '#/components/schemas/HoraireOuvertureDTO'
+      responses:
+        '201':
+          description: Horaire ajouté
+
+    put:
+      tags: [Horaire]
+      summary: modifier les horaire
+      operationId: modifierHoraire
+      security: 
+        - bearerAuth: []
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: array
+              items: 
+               $ref: '#/components/schemas/HoraireOuvertureDTO'
+      responses: 
+        '200':
+          description: horaires modifiées        
+      
+
+
+  /indisponibilites:
+    post:
+      tags: [Indisponibilite]
+      summary: Ajouter indisponibilité
+      operationId: ajoutIndisponibite
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Indisponibilite'
+      responses:
+        '201':
+          description: Indisponibilité ajoutée
+
+
+components:
+
+  securitySchemes:
+     bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+  parameters:
+
+    ServiceId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant du service
+      schema:
+        type: integer
+
+    SalonId:
+      name: id
+      in: path
+      required: true
+      description: Identifiant du salon
+      schema:
+        type: integer
+
+    RendezVousId:
+      name: id 
+      in: path 
+      required: true
+      description: Identifiant du rendez-vous 
+      schema: 
+        type: integer  
+
+  schemas:
+    UtilisateurDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        role:
+          type: string
+
+    UtilisateurInscriptionDTO:
+      type: object
+      properties:
+        nom:
+          type: string
+        email:
+          type: string
+        motDePasse:
+          type: string
+        telephone:
+          type: string
+
+    UtilisateurInformationUpdateDTO:
+      type: object
+      properties:
+        nom:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+
+    MotDePasseUpdateDTO:
+      type: object
+      properties:
+        motDePasse:
+          type: string
+
+    ConnexionDTO: 
+      type: object
+      required: 
+        - email 
+        - motDePasse
+      properties: 
+        email:
+          type: string
+        motDePasse: 
+          type: string      
+
+    SalonInscriptionDTO:
+      type: object
+      properties:
+        nomSalon:
+          type: string
+        email:
+          type: string  
+        motDePasse:
+          type: string
+        categorie:
+          type: string 
+          enum:
+            - FEMME
+            - HOMME
+            - FEMME_ET_HOMME          
+
+    SalonUpdateProfilDTO:
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+          example: "Salon de coiffure moderne avec services premium"
+        adresse:
+          type: string
+          example: "123 Rue de la Liberté, Dakar"
+        latitude:
+          type: number
+          format: double
+          example: 14.6928
+        longitude:
+          type: number
+          format: double
+          example: -17.4467  
+      required:
+        - nom
+        - description
+        - adresse
+        - latitude
+        - longitude
+    
+    SalonDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        adresse:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        imageProfil:
+          type: string
+        categorie:
+          type: string 
+        statutOuverture:
+          type: string
+          enum:
+            - OUVERT
+            - FERME  
+
+    ModifierStatutSalonDTO:
+      type: object
+      properties: 
+        statut:
+          type: string 
+          enum: 
+            - EN_ATTENTE
+            - VALIDE
+            - ACCEPTE
+      required: 
+        - statut 
+  
+    SalonDetail:
+      type: object
+      properties:
+        nom:
+          type: string
+        adresse:
+          type: string
+        description:
+          type: string  
+        latitude:
+          type: number
+        longitude:
+          type: number
+        images:
+          type: string
+        categorie:
+          type: string  
+        horaireOuverture:
+          type: array
+          items: 
+            $ref: '#/components/schemas/HoraireOuvertureDTO'   
+        service:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceDTO'
+
+    ServiceCreateDTO:
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+        prix:
+          type: number
+        duree:
+          type: integer
+       
+
+    ServiceupdateInfo:  
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+        prix:
+          type: number
+        duree:
+          type: integer
+           
+    ServiceDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        description:
+          type: string
+        prix:
+          type: number
+        duree:
+          type: integer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageDTO'
+
+    RendezVousCreateDTO:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        heure:
+          type: string
+        description:
+          type: string
+
+    RendezVousDTO:
+      type: object
+      properties:
+        date:
+          type: string
+        heure:
+          type: string
+        description:
+          type: string
+        nomclient:
+          type: string
+        emailClient:
+          type: string
+        telephoneClient:
+          type: string
+        statut:
+          type: string
+          enum:
+            - EN_ATTENTE
+            - CONFIRME
+            - ANNULE
+            - TERMINE
+
+    AvisAjoutDTO:
+      type: object
+      properties:
+        note:
+          type: integer
+        commentaire:
+          type: string
+
+    AvisDTO:
+      type: object
+      properties:
+        note:
+          type: integer
+        commentaire:
+          type: string
+        nomUser:
+          type: string
+        date:
+          type: string
+
+    HoraireOuvertureDTO:
+      type: object
+      properties:
+        jour:
+          type: string
+          enum:
+            - LUNDI
+            - MARDI
+            - MERCREDI
+            - JEUDI
+            - VENDREDI
+            - SAMEDI
+            - DIMANCHE
+        heureOuverture:
+          type: string
+          format: time
+          description: Heure d'ouverture au format HH:MM (24h)
+        heureFermeture:
+          type: string
+          format: time 
+          description: Heure de fermeture au format HH:MM (24h)
+      required: 
+        - jour 
+        - heureOuverture
+        - heureFermeture
+            
+    ImageDTO:
+      type: object
+      properties:
+        nom:
+          type: string
+        
+    Indisponibilite:
+      type: object
+      properties:
+        motif:
+          type: string
+        dateDebut:
+          type: string
+          format: date-time
+        dateFin:
+          type: string
+          format: date-time
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: "Token JWT à utiliser pour les requêtes authentifiées"
+
+               
