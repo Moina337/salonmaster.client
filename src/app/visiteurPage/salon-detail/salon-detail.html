@@ -12,7 +12,7 @@
 <!-- HERO IMAGE -->
 <div class="relative max-w-7xl mx-auto px-6 mb-0">
   <div class="relative overflow-hidden" style="height:420px;">
-    <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1200&q=85" alt="Salon Atlas" class="w-full h-full object-cover" />
+    <img [src]="'http://localhost:8080/uploads/' + salon()?.images" alt="Salon Atlas" class="w-full h-full object-cover" />
     <div class="hero-overlay"></div>
     <!-- Overlay info -->
     <div class="absolute bottom-0 left-0 right-0 p-8">
@@ -58,36 +58,86 @@
         
       </section>
 
-      <!-- Services -->
       <section>
-        <h2 class="font-display text-2xl font-semibold mb-6" style="color:#0F0E0C;">Nos services</h2>
-        <div class="space-y-2">
-        @for (item of salon()?.service; track item.id) {
-  <!-- On ajoute le lien dynamique vers l'ID du service -->
-  <div class="service-item cursor-pointer" [routerLink]="['/service-detail', item.id]">
-    <div>
-      <p class="font-medium text-sm mb-0.5" style="color:#0F0E0C;">{{ item.nom }}</p>
-      <p class="text-xs" style="color:#9a9087;">{{ item.description }}</p>
-    </div>
-    <div class="text-right shrink-0">
-      <p class="font-display font-semibold" style="color:#C9A96E;">{{ item.prix }} XOF</p>
-      <p class="text-xs" style="color:#9a9087;">{{ item.duree }} min</p>
-    </div>
-  </div>
-}
-        </div>
-      </section>
+  <h2 class="font-display text-2xl font-semibold mb-6 text-ink-900">
+    Nos services
+  </h2>
 
-      <!-- Gallery -->
-      <section>
-        <h2 class="font-display text-2xl font-semibold mb-6" style="color:#0F0E0C;">Galerie</h2>
-        <div class="grid grid-cols-3 md:grid-cols-4 gap-2">
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80" alt="" /></div>
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80" alt="" /></div>
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80" alt="" /></div>
-          <div class="thumb"><img src="https://images.unsplash.com/photo-1562004760-aceed7bb0fe3?w=400&q=80" alt="" /></div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+@for (item of salon()?.service; track item.id) {
+
+  <div 
+    class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer"
+    
+  >
+
+    <!-- IMAGE -->
+    <div class="h-48 overflow-hidden">
+      <img 
+        [src]=" 'http://localhost:8080/uploads/' + item.images?.[0]?.nom 
+          || 'https://via.placeholder.com/400x300?text=Pas+d%27image' "
+        [alt]="item.nom"
+        class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+      />
+    </div>
+
+    <!-- CONTENT -->
+    <div class="p-4 space-y-2">
+
+      <p class="font-semibold text-ink-900">
+        {{ item.nom }}
+      </p>
+
+      <p class="text-sm text-ink-500 line-clamp-2">
+        {{ item.description }}
+      </p>
+
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-gold-600 font-semibold">
+          {{ item.prix }} XOF
+        </span>
+
+        <span class="text-xs text-ink-400">
+          {{ item.duree || 30 }} min
+        </span>
+      </div>
+
+      <!-- bouton stylé -->
+      <div class="pt-2">
+       <a [routerLink]="['/service', item.id]" class="text-sm text-gold-600 font-semibold group-hover:underline">
+          Voir plus →
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+  </div>
+</section>
+
+     <section>
+  <h2 class="font-display text-2xl font-semibold mb-6" style="color:#0F0E0C;">
+    Galerie
+  </h2>
+
+  <div class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
+
+    @for (item of servicesWithImages(); track item.id) {
+      @if (item.images?.[0]) {
+        <div class="min-w-[200px] h-40 rounded-xl overflow-hidden snap-start shrink-0">
+          <img 
+            [src]="'http://localhost:8080/uploads/' + item.images?.[0]?.nom"
+            class="w-full h-full object-cover hover:scale-105 transition duration-300"
+          />
         </div>
-      </section>
+      }
+    }
+
+  </div>
+</section>
 
       <!-- Reviews -->
       <section>

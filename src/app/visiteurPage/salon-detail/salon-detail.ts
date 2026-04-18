@@ -26,6 +26,14 @@ salon = toSignal(
   { initialValue: null }
 );
   
+servicesWithImages = computed(() => {
+  const salonData = this.salon();
+  if (!salonData) return [];
 
+  return (salonData.service ?? []).map(service => ({
+    ...service,
+    imagePrincipale: service.images?.[0]?.nom || null
+  }));
+});
 
 }
