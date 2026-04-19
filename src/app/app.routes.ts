@@ -12,6 +12,7 @@ import { AjouterService } from './MonSalon/ajouter-service/ajouter-service';
 import { Service } from './visiteurPage/service/service';
 import { AjouterHoraire } from './MonSalon/ajouter-horaire/ajouter-horaire';
 import { ModifInfoSalon } from './MonSalon/modif-info-salon/modif-info-salon';
+import { ModifService } from './MonSalon/modif-service/modif-service';
 
 export const routes: Routes = [
     {
@@ -37,6 +38,10 @@ export const routes: Routes = [
             {
                 path: 'modif-info-salon',
                 component: ModifInfoSalon
+            },
+            {
+                path: 'modif-service/:id',
+                component: ModifService
             }
 
              

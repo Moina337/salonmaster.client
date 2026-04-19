@@ -396,8 +396,51 @@ paths:
         - $ref: '#/components/parameters/ServiceId'
       responses: 
         '200':
-          description: Service supprimé avec succès               
+          description: Service supprimé avec succès   
 
+  /services/image/{id}:   
+    put: 
+      tags: [service]
+      summary: modifier l'image d'une service
+      operationId: midifierImageService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security: 
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data: 
+            schema: 
+              type: object
+              properties: 
+                image:
+                  type: string 
+                  format: binary
+      responses: 
+        "200":
+          description: Image mise à jour avec succès  
+
+    delete: 
+      tags: [service]
+      summary: supprimer une image d'une service          
+      operationId: supprimerImageService
+      security: 
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses: 
+        "200":
+          description: image supprimé avec succès          
+        
   /rendez-vous:
     post:
       tags: [RendezVous]
@@ -905,6 +948,8 @@ components:
     ImageDTO:
       type: object
       properties:
+        id:
+          type: integer
         nom:
           type: string
         

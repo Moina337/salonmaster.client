@@ -1,114 +1,208 @@
-<nav class="max-w-6xl mx-auto mt-6 px-4" aria-label="Breadcrumb">
-  <ol class="flex items-center space-x-2 text-sm text-gray-500 font-medium">
-    <!-- Accueil -->
-    <li class="flex items-center">
-      <a routerLink="/" class="hover:text-blue-600 transition-colors flex items-center">
-        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+<!-- service-detail.component.html -->
+<!-- Style : BarberOS luxury editorial — Playfair Display + DM Sans + gold/cream/noir -->
+<!-- 100% Tailwind CSS | bindings Angular exacts conservés -->
+
+<!-- BREADCRUMB -->
+<nav class="max-w-6xl mx-auto mt-6 px-6" aria-label="Breadcrumb">
+  <ol class="flex items-center gap-2 text-xs text-stone-400 font-medium tracking-wide">
+
+    <li>
+      <a routerLink="/"
+         class="flex items-center gap-1.5 hover:text-amber-600 transition-colors">
+        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
         </svg>
         Accueil
       </a>
     </li>
 
-    <!-- Séparateur -->
-    <li>
-      <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-      </svg>
-    </li>
+    <li class="text-stone-300">/</li>
 
-    <!-- Salon -->
-    <li class="flex items-center">
-      <a routerLink="/salons" class="hover:text-blue-600 transition-colors">
+    <li>
+      <a routerLink="/salons"
+         class="hover:text-amber-600 transition-colors">
         Salons
       </a>
     </li>
 
-    <!-- Séparateur -->
-    <li>
-      <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-      </svg>
-    </li>
+    <li class="text-stone-300">/</li>
 
-    <!-- Service Actuel (Dernier item est souvent grisé et non cliquable) -->
-    <li class="text-gray-900 font-bold truncate max-w-[150px] sm:max-w-none">
+    <!-- service()?.nom -->
+    <li class="text-stone-800 font-semibold truncate max-w-[150px] sm:max-w-none">
       {{ service()?.nom }}
     </li>
+
   </ol>
 </nav>
-<div class="max-w-6xl mx-auto mt-10 p-4">
-  <!-- SECTION HAUT : Image Principale + Infos -->
-  <div class="flex flex-col md:flex-row gap-8 bg-white p-6 rounded-3xl shadow-xl border border-gray-100">
-    
-    <!-- À GAUCHE : L'image principale (la première du tableau) -->
-    <div class="w-full md:w-1/2 aspect-square rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+
+<!-- ══════════════════════════════════════════
+     SECTION PRINCIPALE
+══════════════════════════════════════════ -->
+<div class="max-w-6xl mx-auto mt-8 px-6 pb-20">
+
+  <!-- BLOC HAUT : Image principale + Infos -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-white border border-stone-200 shadow-sm overflow-hidden">
+
+    <!-- IMAGE PRINCIPALE — service()?.images![0].nom -->
+    <div class="relative bg-stone-100 overflow-hidden"
+         style="min-height: 420px;">
+
       @if (service()?.images && service()?.images!.length > 0) {
-        <img 
-          [src]="'http://localhost:8080/uploads/' + service()?.images![0].nom" 
+        <img
+          [src]="'http://localhost:8080/uploads/' + service()?.images![0].nom"
           [alt]="service()?.nom"
-          class="w-full h-full object-cover">
+          class="w-full h-full object-cover absolute inset-0" />
+        <!-- Overlay bas -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
       } @else {
-        <div class="w-full h-full flex items-center justify-center text-gray-400 italic">
-          Aucune image
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3
+                    text-stone-400">
+          <svg width="40" height="40" fill="none" stroke="currentColor"
+               stroke-width="1.5" viewBox="0 0 24 24" class="opacity-40">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span class="text-sm italic">Aucune image disponible</span>
         </div>
       }
     </div>
 
-    <!-- À DROITE : Les informations -->
-    <div class="w-full md:w-1/2 flex flex-col justify-center">
-      <div class="flex justify-between items-start mb-4">
-        <h1 class="text-4xl font-black text-gray-900 leading-tight">{{ service()?.nom }}</h1>
-      </div>
-      
-      <div class="flex items-center gap-2 mb-6">
-        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">
-          ID: #{{ service()?.id }}
-        </span>
-      </div>
+    <!-- INFOS — colonne droite -->
+    <div class="flex flex-col justify-between p-8 md:p-10">
 
-      <p class="text-gray-600 text-lg leading-relaxed mb-8 whitespace-pre-line">
-        {{ service()?.description }}
-      </p>
-
-      <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="p-4 bg-gray-50 rounded-2xl">
-          <span class="block text-sm text-gray-500 font-semibold uppercase">Prix</span>
-          <span class="text-3xl font-bold text-blue-600">{{ service()?.prix | number:'1.2-2' }} €</span>
+      <div>
+        <!-- ID badge — service()?.id -->
+        <div class="mb-4">
+          <span class="inline-block text-xs font-semibold uppercase tracking-widest
+                       px-3 py-1 border border-amber-300 text-amber-700 bg-amber-50">
+            Service #{{ service()?.id }}
+          </span>
         </div>
-        <div class="p-4 bg-gray-50 rounded-2xl">
-          <span class="block text-sm text-gray-500 font-semibold uppercase">Durée</span>
-          <span class="text-xl font-bold text-gray-800">{{ service()?.duree || '---' }}</span>
-        </div>
+
+        <!-- Nom — service()?.nom -->
+        <h1 class="font-serif text-3xl md:text-4xl font-bold text-stone-900
+                   leading-tight mb-5">
+          {{ service()?.nom }}
+        </h1>
+
+        <!-- Description — service()?.description -->
+        <p class="text-sm text-stone-500 leading-relaxed whitespace-pre-line mb-8">
+          {{ service()?.description }}
+        </p>
       </div>
 
-      <button class="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold py-4 rounded-2xl transition shadow-lg shadow-blue-200">
-        Réserver maintenant
-      </button>
+      <!-- Prix + Durée — service()?.prix | service()?.duree -->
+      <div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+
+          <div class="p-4 bg-stone-50 border border-stone-100">
+            <span class="block text-xs font-semibold uppercase tracking-widest
+                         text-stone-400 mb-2">
+              Prix
+            </span>
+            <!-- service()?.prix | number:'1.2-2' -->
+            <span class="font-serif text-3xl font-bold text-amber-600">
+              {{ service()?.prix | number:'1.0-0' }}
+            </span>
+            <span class="text-sm text-stone-400 ml-1">FCFA</span>
+          </div>
+
+          <div class="p-4 bg-stone-50 border border-stone-100">
+            <span class="block text-xs font-semibold uppercase tracking-widest
+                         text-stone-400 mb-2">
+              Durée
+            </span>
+            <!-- service()?.duree -->
+            <span class="font-serif text-2xl font-bold text-stone-900">
+              {{ service()?.duree || '---' }}
+            </span>
+            <span class="text-sm text-stone-400 ml-1">min</span>
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <button class="w-full py-4 bg-stone-900 text-stone-50 text-sm font-semibold
+                       uppercase tracking-widest hover:bg-amber-500 hover:text-stone-900
+                       transition-all duration-300 flex items-center justify-center gap-2">
+          <svg width="16" height="16" fill="none" stroke="currentColor"
+               stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Réserver maintenant
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- SECTION BAS : Galerie de toutes les images -->
+  <!-- ══════════════════════════════════════════
+       GALERIE — service()?.images
+  ══════════════════════════════════════════ -->
   <div class="mt-12">
-    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-      <span class="w-8 h-1 bg-blue-600 rounded-full mr-3"></span>
+
+    <h3 class="font-serif text-2xl font-semibold text-stone-900 mb-6
+               flex items-center gap-3">
+      <span class="w-1 h-6 bg-amber-500 rounded-full inline-block"></span>
       Galerie Photos
     </h3>
-    
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+    <!-- @for (img of service()?.images; track img.nom) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+
       @for (img of service()?.images; track img.nom) {
-        <div class="group relative aspect-square rounded-2xl overflow-hidden border-2 border-transparent hover:border-blue-500 transition cursor-pointer shadow-sm">
-          <img 
-            [src]="'http://localhost:8080/uploads/' + img.nom" 
+        <div class="group relative aspect-square overflow-hidden bg-stone-100
+                    border border-stone-200 hover:border-amber-400
+                    transition-all duration-300 cursor-pointer hover:shadow-md">
+
+          <!-- http://localhost:8080/uploads/ + img.nom -->
+          <img
+            [src]="'http://localhost:8080/uploads/' + img.nom"
             [alt]="service()?.nom"
-            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-          <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
-        </div>
-      } @empty {
-        <div class="col-span-full py-10 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400">
-          Aucune photo supplémentaire disponible.
+            class="w-full h-full object-cover
+                   group-hover:scale-105 transition-transform duration-500" />
+
+          <!-- Overlay hover -->
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10
+                      transition-colors duration-300"></div>
+
+          <!-- Icône loupe au hover -->
+          <div class="absolute inset-0 flex items-center justify-center
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="w-9 h-9 bg-white/90 flex items-center justify-center">
+              <svg width="16" height="16" fill="none" stroke="currentColor"
+                   stroke-width="2" class="text-stone-700" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+          </div>
+
         </div>
       }
+
+      <!-- @empty -->
+      @empty {
+        <div class="col-span-full py-16 text-center border border-dashed
+                    border-stone-200 bg-stone-50">
+          <svg width="36" height="36" fill="none" stroke="currentColor"
+               stroke-width="1.5" class="text-stone-300 mx-auto mb-3"
+               viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p class="text-sm text-stone-400 italic">
+            Aucune photo supplémentaire disponible.
+          </p>
+        </div>
+      }
+
     </div>
   </div>
+
 </div>

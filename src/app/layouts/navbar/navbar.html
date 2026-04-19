@@ -1,60 +1,127 @@
+<!-- navbar.component.html -->
+<!-- SalonMaster — 100% Tailwind | Angular ready -->
 
-<!-- NAVBAR -->
-<header class="sticky top-0 z-50" style="background: rgba(250,247,242,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #e8e0d4;">
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
 
-      <!-- Logo -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="logo-mark" style="background:#0F0E0C;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="2" stroke-linecap="round">
+      <!-- ── Logo ── -->
+      <a routerLink="/" class="flex items-center gap-3">
+        <div class="w-8 h-8  flex items-center justify-center shrink-0 rounded-lg" style="background-color: #ffba39;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+               stroke-linecap="round" width="15" height="15">
             <path d="M14 2C14 2 12 6 12 10C12 14 14 18 14 22"/>
             <path d="M10 2C10 2 12 6 12 10C12 14 10 18 10 22"/>
             <line x1="7" y1="7" x2="17" y2="7"/>
             <line x1="7" y1="17" x2="17" y2="17"/>
           </svg>
         </div>
-        <span class="font-display text-xl font-semibold tracking-tight" style="color:#0F0E0C;">
-          Barber<span style="color:#C9A96E;">OS</span>
+        <span class="font-serif text-xl font-bold tracking-tight text-gray-900">
+          Salon<span style="color:#ffba39;;">Master</span>
         </span>
       </a>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-10">
-        <a href="#" class="nav-link">Accueil</a>
-        <a href="#" class="nav-link">Salons</a>
-        <a href="#" class="nav-link">Tarifs</a>
-        <a href="#" class="nav-link">À propos</a>
+      <!-- ── Nav desktop ── -->
+      <nav class="hidden md:flex items-center gap-1">
+        <a routerLink="/"
+           routerLinkActive="text-gray-900 bg-gray-100"
+           [routerLinkActiveOptions]="{exact:true}"
+           class="px-4 py-2 text-sm text-gray-500 hover:text-gray-900
+                  hover:bg-gray-100 rounded-lg transition-colors duration-150 font-medium">
+          Accueil
+        </a>
+        <a routerLink="/salons"
+           routerLinkActive="text-gray-900 bg-gray-100"
+           class="px-4 py-2 text-sm text-gray-500 hover:text-gray-900
+                  hover:bg-gray-100 rounded-lg transition-colors duration-150 font-medium">
+          Salons
+        </a>
+        <a routerLink="/tarifs"
+           routerLinkActive="text-gray-900 bg-gray-100"
+           class="px-4 py-2 text-sm text-gray-500 hover:text-gray-900
+                  hover:bg-gray-100 rounded-lg transition-colors duration-150 font-medium">
+          Tarifs
+        </a>
+        <a routerLink="/a-propos"
+           routerLinkActive="text-gray-900 bg-gray-100"
+           class="px-4 py-2 text-sm text-gray-500 hover:text-gray-900
+                  hover:bg-gray-100 rounded-lg transition-colors duration-150 font-medium">
+          À propos
+        </a>
       </nav>
 
-      <!-- Actions Desktop -->
-      <div class="hidden md:flex items-center gap-4">
-        <a href="/connexion" class="nav-link text-sm">Connexion</a>
-        <a href="/ajouter-salon" class="btn-login uppercase tracking-widest text-xs font-medium">
+      <!-- ── Actions desktop ── -->
+      <div class="hidden md:flex items-center gap-3">
+        <a routerLink="/connexion"
+           class="text-sm text-gray-500 hover:text-gray-900
+                  font-medium transition-colors duration-150">
+          Connexion
+        </a>
+        <a routerLink="/ajouter-salon"
+           class="text-xs uppercase tracking-widest font-semibold px-5 py-2.5
+                   text-black rounded-lg hover:bg-amber-600
+                  transition-colors duration-200 shadow-sm shadow-amber-200" style="background-color: #ffba39;">
           Essai gratuit
         </a>
       </div>
 
-      <!-- Hamburger Mobile -->
-      <button id="menuBtn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+      <!-- ── Hamburger mobile ── -->
+      <button
+        (click)="mobileOpen = !mobileOpen"
+        class="md:hidden flex flex-col gap-1.5 p-2"
+        aria-label="Menu">
+        <span class="block w-5 h-0.5 bg-gray-800 transition-all duration-300"
+              [class.rotate-45]="mobileOpen"
+              [class.translate-y-2]="mobileOpen"></span>
+        <span class="block w-5 h-0.5 bg-gray-800 transition-all duration-300"
+              [class.opacity-0]="mobileOpen"></span>
+        <span class="block w-5 h-0.5 bg-gray-800 transition-all duration-300"
+              [class.-rotate-45]="mobileOpen"
+              [class.-translate-y-2]="mobileOpen"></span>
       </button>
+
     </div>
   </div>
 
-  <!-- Mobile Menu -->
-  <div id="mobileMenu" class="mobile-menu md:hidden px-6 py-4 gap-1">
-    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Accueil</a>
-    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Salons</a>
-    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">Tarifs</a>
-    <a href="#" class="py-3 text-sm tracking-wide border-b border-gray-100" style="color:#3a3632;">À propos</a>
-    <div class="pt-4 flex flex-col gap-3">
-      <a href="#" class="text-sm text-center py-2.5 border border-gray-300 tracking-wide" style="color:#3a3632;">Connexion</a>
-      <a href="#" class="btn-login text-center uppercase tracking-widest text-xs font-medium py-3">Essai gratuit</a>
+  <!-- ── Mobile menu ── -->
+  @if (mobileOpen) {
+    <div class="md:hidden border-t border-gray-100 bg-white px-6 py-4 flex flex-col gap-1">
+      <a routerLink="/" (click)="mobileOpen = false"
+         class="py-3 text-sm font-medium text-gray-600 border-b border-gray-100
+                hover:text-violet-600 transition-colors">
+        Accueil
+      </a>
+      <a routerLink="/salons" (click)="mobileOpen = false"
+         class="py-3 text-sm font-medium text-gray-600 border-b border-gray-100
+                hover:text-violet-600 transition-colors">
+        Salons
+      </a>
+      <a routerLink="/tarifs" (click)="mobileOpen = false"
+         class="py-3 text-sm font-medium text-gray-600 border-b border-gray-100
+                hover:text-violet-600 transition-colors">
+        Tarifs
+      </a>
+      <a routerLink="/a-propos" (click)="mobileOpen = false"
+         class="py-3 text-sm font-medium text-gray-600 border-b border-gray-100
+                hover:text-violet-600 transition-colors">
+        À propos
+      </a>
+      <div class="pt-4 flex flex-col gap-3">
+        <a routerLink="/connexion" (click)="mobileOpen = false"
+           class="text-sm text-center py-2.5 border border-gray-200 rounded-lg
+                  text-gray-600 hover:bg-gray-50 transition-colors">
+          Connexion
+        </a>
+        <a routerLink="/ajouter-salon" (click)="mobileOpen = false"
+           class="text-xs text-center uppercase tracking-widest font-semibold
+                  py-3 bg-amber-500 text-black rounded-lg hover:bg-violet-700
+                  transition-colors duration-200">
+          Essai gratuit
+        </a>
+      </div>
     </div>
-  </div>
+  }
+
 </header>
 
-<router-outlet></router-outlet>
+<router-outlet />

@@ -10,6 +10,7 @@
 
 
 export interface ImageDTO { 
+    id?: number;
     nom?: string;
 }
 

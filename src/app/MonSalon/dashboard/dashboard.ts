@@ -5,11 +5,12 @@ import { inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SalonDetail } from '../../api';
 import { signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [RouterLink, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
