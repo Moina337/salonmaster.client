@@ -1,75 +1,256 @@
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10" *ngIf="service(); else loading">
-  <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Modifier le service</h2>
-
-  <!-- Formulaire des informations textuelles -->
-  <form (ngSubmit)="modifierService()" class="space-y-4">
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Nom :</label>
-      <input type="text" [(ngModel)]="serviceData.nom" name="nom" 
-             class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Description :</label>
-      <textarea [(ngModel)]="serviceData.description" name="description" rows="3"
-                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
-    </div>
-
-    <div class="w-full sm:w-1/3">
-      <label class="block text-sm font-medium text-gray-700">Prix :</label>
-      <input type="number" [(ngModel)]="serviceData.prix" name="prix" 
-             class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-    </div>
-
-    <div class="w-full sm:w-1/3">
-      <label class="block text-sm font-medium text-gray-700">Durée (min) :</label>
-      <input type="number" [(ngModel)]="serviceData.duree" name="duree" 
-             class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-    </div>
-
-    <button type="submit" 
-            class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300">
-      Enregistrer les informations
-    </button>
-  </form>
-
-  <hr class="my-8 border-gray-200">
-
-  <!-- Section de gestion des images -->
-  <h3 class="text-xl font-semibold text-gray-800 mb-4">Images du service</h3>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    @for (img of service()?.images; track img.nom) {
-      <div class="relative group bg-gray-50 p-2 rounded-lg border border-gray-200 shadow-sm">
-        <!-- Affichage de l'image -->
-        <div class="h-40 w-full overflow-hidden rounded-md bg-gray-200">
-          <img [src]="'http://localhost:8080/uploads/' + img.nom" 
-               class="h-full w-full object-cover transform group-hover:scale-105 transition duration-300">
-        </div>
-        
-        <div class="mt-3 flex justify-between gap-2">
-          <!-- Bouton Modifier -->
-          <input type="file" #fileInput (change)="onImageChange(img.id, $event)" hidden>
-          <button type="button" (click)="fileInput.click()" 
-                  class="flex-1 text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 py-1.5 rounded transition">
-            🔄 Modifier
-          </button>
-          
-          <!-- Bouton Supprimer -->
-          <button type="button" (click)="supprimerImage(img.id)" 
-                  class="flex-1 text-xs bg-red-100 hover:bg-red-200 text-red-600 py-1.5 rounded transition">
-            🗑️ Supprimer
-          </button>
-        </div>
-      </div>
-    }
-  </div>
-</div>
-
-<!-- Loading Template -->
+<!-- ══ SKELETON ══ -->
 <ng-template #loading>
-  <div class="flex justify-center items-center h-64">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-    <p class="ml-4 text-gray-500 font-medium">Chargement des données...</p>
+  <div class="min-h-screen flex items-center justify-center" style="background:#FAF7F2;">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-10 h-10 rounded-full animate-spin"
+           style="border: 2px solid #e8e0d4; border-top-color: #C9A96E;"></div>
+      <p class="text-sm font-medium" style="color:#8a7f74;">Chargement du service…</p>
+    </div>
   </div>
 </ng-template>
+
+<div *ngIf="service(); else loading" class="min-h-screen" style="background:#FAF7F2;">
+
+  <!-- ══ HERO HEADER ══ -->
+  <section class="relative overflow-hidden" style="min-height: clamp(160px, 25vw, 220px);">
+    <div class="absolute inset-0"
+         style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1400&q=80');
+                background-size: cover; background-position: center;"></div>
+    <div class="absolute inset-0" style="background: rgba(15,14,12,0.84);"></div>
+
+    <div class="relative z-10 h-full flex flex-col justify-end
+                px-4 sm:px-6 md:px-8 py-8 max-w-4xl mx-auto w-full">
+
+      <!-- Retour -->
+      <div class="flex items-center gap-2 mb-4">
+        <a routerLink="/mon-salon"
+           class="flex items-center gap-1.5 text-xs uppercase tracking-widest
+                  font-medium transition-opacity hover:opacity-70"
+           style="color:#C9A96E;">
+          <svg width="14" height="14" fill="none" stroke="currentColor"
+               stroke-width="2" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Mon salon
+        </a>
+      </div>
+
+      <p class="text-xs uppercase tracking-widest mb-2" style="color:#C9A96E;">
+        Gestion des services
+      </p>
+      <h1 class="font-display font-semibold"
+          style="color:#FAF7F2; font-size: clamp(1.5rem, 4vw, 2.5rem);">
+        Modifier le service
+      </h1>
+      <p class="text-sm mt-1" style="color:#a89f95;">{{ service()?.nom }}</p>
+    </div>
+  </section>
+
+  <!-- ══ BODY ══ -->
+  <main class="max-w-4xl mx-auto px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10
+               flex flex-col gap-4 sm:gap-6">
+
+    <!-- ══ SECTION 1 : Informations ══ -->
+    <section style="background:#fff; border:1px solid #ede8e0;
+                    box-shadow: 0 2px 12px rgba(15,14,12,0.04);">
+
+      <div class="flex items-center gap-3 px-4 sm:px-6 py-4"
+           style="border-bottom:1px solid #f0ebe3;">
+        <span class="w-0.5 h-5 inline-block shrink-0" style="background:#C9A96E;"></span>
+        <h2 class="font-display font-semibold text-sm sm:text-base"
+            style="color:#0F0E0C;">Informations générales</h2>
+      </div>
+
+      <form (ngSubmit)="modifierService()"
+            class="px-4 sm:px-6 py-5 sm:py-6 flex flex-col gap-5">
+
+        <!-- Nom -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs uppercase tracking-widest font-medium"
+                 style="color:#6b6056;">
+            Nom du service <span style="color:#C9A96E;">*</span>
+          </label>
+          <input type="text"
+                 [(ngModel)]="serviceData.nom"
+                 name="nom"
+                 placeholder="ex : Coupe classique"
+                 class="w-full px-4 py-2.5 text-sm outline-none transition-all"
+                 style="background:#FAF7F2; border:1px solid #e8e0d4;
+                        color:#0F0E0C;"
+                 onfocus="this.style.borderColor='#C9A96E'"
+                 onblur="this.style.borderColor='#e8e0d4'" />
+        </div>
+
+        <!-- Description -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs uppercase tracking-widest font-medium"
+                 style="color:#6b6056;">Description</label>
+          <textarea [(ngModel)]="serviceData.description"
+                    name="description"
+                    rows="3"
+                    placeholder="Décrivez le service proposé…"
+                    class="w-full px-4 py-2.5 text-sm outline-none transition-all resize-none"
+                    style="background:#FAF7F2; border:1px solid #e8e0d4; color:#0F0E0C;"
+                    onfocus="this.style.borderColor='#C9A96E'"
+                    onblur="this.style.borderColor='#e8e0d4'"></textarea>
+        </div>
+
+        <!-- Prix + Durée -->
+        <div class="grid grid-cols-1 xs:grid-cols-2 gap-4">
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs uppercase tracking-widest font-medium"
+                   style="color:#6b6056;">
+              Prix <span style="color:#C9A96E;">*</span>
+            </label>
+            <div class="relative">
+              <input type="number"
+                     [(ngModel)]="serviceData.prix"
+                     name="prix"
+                     placeholder="0"
+                     min="0"
+                     class="w-full px-4 py-2.5 pr-14 text-sm outline-none transition-all"
+                     style="background:#FAF7F2; border:1px solid #e8e0d4; color:#0F0E0C;"
+                     onfocus="this.style.borderColor='#C9A96E'"
+                     onblur="this.style.borderColor='#e8e0d4'" />
+              <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium"
+                    style="color:#9a9087;">FCFA</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs uppercase tracking-widest font-medium"
+                   style="color:#6b6056;">
+              Durée <span style="color:#C9A96E;">*</span>
+            </label>
+            <div class="relative">
+              <input type="number"
+                     [(ngModel)]="serviceData.duree"
+                     name="duree"
+                     placeholder="30"
+                     min="5"
+                     class="w-full px-4 py-2.5 pr-12 text-sm outline-none transition-all"
+                     style="background:#FAF7F2; border:1px solid #e8e0d4; color:#0F0E0C;"
+                     onfocus="this.style.borderColor='#C9A96E'"
+                     onblur="this.style.borderColor='#e8e0d4'" />
+              <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium"
+                    style="color:#9a9087;">min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="flex justify-end pt-2">
+          <button type="submit"
+                  class="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5
+                         text-xs uppercase tracking-widest font-semibold transition-all"
+                  style="background:#0F0E0C; color:#FAF7F2;">
+            <svg width="13" height="13" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ══ SECTION 2 : Images ══ -->
+    <section style="background:#fff; border:1px solid #ede8e0;
+                    box-shadow: 0 2px 12px rgba(15,14,12,0.04);">
+
+      <div class="flex items-center justify-between px-4 sm:px-6 py-4"
+           style="border-bottom:1px solid #f0ebe3;">
+        <div class="flex items-center gap-3">
+          <span class="w-0.5 h-5 inline-block shrink-0" style="background:#C9A96E;"></span>
+          <h2 class="font-display font-semibold text-sm sm:text-base"
+              style="color:#0F0E0C;">Images du service</h2>
+          <span class="text-xs font-semibold px-2 py-0.5"
+                style="background:#f3ede4; color:#C9A96E; border:1px solid #e8ddd0;">
+            {{ service()?.images?.length || 0 }}
+          </span>
+        </div>
+      </div>
+
+      <div class="px-4 sm:px-6 py-5 sm:py-6">
+
+        <!-- État vide -->
+        <div *ngIf="!service()?.images?.length"
+             class="py-10 text-center"
+             style="background:#FAF7F2; border:1px dashed #e8e0d4;">
+          <div class="w-10 h-10 mx-auto mb-3 flex items-center justify-center"
+               style="background:#f3ede4; border:1px solid #e8ddd0;">
+            <svg width="18" height="18" fill="none" stroke="currentColor"
+                 stroke-width="1.5" style="color:#C9A96E;" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+          <p class="text-sm font-medium mb-1" style="color:#0F0E0C;">Aucune image</p>
+          <p class="text-xs" style="color:#9a9087;">
+            Ajoutez des photos pour mettre en valeur ce service.
+          </p>
+        </div>
+
+        <!-- Grille images -->
+        <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          @for (img of service()?.images; track img.nom) {
+            <div style="border:1px solid #ede8e0; background:#FAF7F2;">
+
+              <!-- Image -->
+              <div class="overflow-hidden"
+                   style="height: clamp(140px, 20vw, 180px);">
+                <img [src]="'http://localhost:8080/uploads/' + img.nom"
+                     class="w-full h-full object-cover transition-transform duration-300"
+                     style="display:block;" />
+              </div>
+
+              <!-- Actions image -->
+              <div class="flex" style="border-top:1px solid #ede8e0;">
+
+                <!-- Modifier -->
+                <div class="flex-1" style="border-right:1px solid #ede8e0;">
+                  <input type="file" #fileInput
+                         (change)="onImageChange(img.id, $event)" hidden />
+                  <button type="button"
+                          (click)="fileInput.click()"
+                          class="w-full flex items-center justify-center gap-1.5
+                                 py-2.5 text-xs font-medium uppercase tracking-widest
+                                 transition-all"
+                          style="color:#6b6056;">
+                    <svg width="11" height="11" fill="none" stroke="currentColor"
+                         stroke-width="2" viewBox="0 0 24 24">
+                      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    Modifier
+                  </button>
+                </div>
+
+                <!-- Supprimer -->
+                <div class="flex-1">
+                  <button type="button"
+                          (click)="supprimerImage(img.id)"
+                          class="w-full flex items-center justify-center gap-1.5
+                                 py-2.5 text-xs font-medium uppercase tracking-widest
+                                 transition-all"
+                          style="color:#c0392b;">
+                    <svg width="11" height="11" fill="none" stroke="currentColor"
+                         stroke-width="2" viewBox="0 0 24 24">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                      <path d="M10 11v6M14 11v6"/>
+                    </svg>
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>

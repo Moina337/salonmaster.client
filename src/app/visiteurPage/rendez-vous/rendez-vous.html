@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="p-8">
+      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">Réservation</div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Prendre un rendez-vous</h2>
+
+      <form #rdvForm="ngForm" (ngSubmit)="creerRendezVous() " class="grid grid-cols-1 gap-6">
+        
+        <!-- Nom Complet -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Nom complet</label>
+          <input type="text" name="nomClient" [(ngModel)]="rendezVousCreateDTO.nomClient" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="emailClient" [(ngModel)]="rendezVousCreateDTO.emailClient" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border">
+          </div>
+
+          <!-- Téléphone -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+            <input type="tel" name="telephoneClient" [(ngModel)]="rendezVousCreateDTO.telephoneClient" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Date -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Date</label>
+            <input type="date" name="date" [(ngModel)]="rendezVousCreateDTO.date" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border">
+          </div>
+
+          <!-- Heure -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Heure</label>
+            <input type="time" name="heure" [(ngModel)]="rendezVousCreateDTO.heure" required
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea name="description" rows="3" [(ngModel)]="rendezVousCreateDTO.description"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border"
+            placeholder="Précisez votre besoin..."></textarea>
+        </div>
+
+        <!-- Bouton Submit -->
+        <div>
+          <button type="submit" [disabled]="!rdvForm.valid"
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">
+            Confirmer la réservation
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

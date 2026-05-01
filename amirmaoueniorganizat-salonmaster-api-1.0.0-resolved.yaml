@@ -219,6 +219,23 @@ paths:
         '200':
           description: les informations sont bien modifiées    
 
+  /salons/me/rendezVous:
+    get:
+      tags: [Salon]
+      summary: Liste des rendez-vous de mon Salon
+      operationId: listeRendezVousSalon
+      security: 
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RendezVousDTO'
+
   /salons/me/imageProfil:
     put:
       tags: [Salon]
@@ -277,7 +294,19 @@ paths:
         - bearerAuth: []  
       responses:
         "200":
-          description: statut modifié         
+          description: statut modifié   
+
+  /salons/me/supprimer:
+    delete: 
+      tags: [Salon] 
+      summary: supprimer mon salon
+      operationId: supprimerMonSalon
+      security: 
+        - bearerAuth: []
+      responses: 
+        "200":
+          description: salon supprimé            
+
 
   /public/salons:
     get:
@@ -311,7 +340,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalonDetail'
+                $ref: '#/components/schemas/SalonDetail'      
+
+  /public/rendezVous:      
+    post:
+      tags: [Public]
+      summary: Créer rendez-vous
+      operationId: prendreUnRendezVous
+      security: 
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RendezVousCreateDTO'
+      responses:
+        '201':
+          description: Rendez-vous créé         
                  
   /services:
     get:
@@ -441,37 +486,6 @@ paths:
         "200":
           description: image supprimé avec succès          
         
-  /rendez-vous:
-    post:
-      tags: [RendezVous]
-      summary: Créer rendez-vous
-      operationId: prendreUnRendezVous
-      security: 
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RendezVousCreateDTO'
-      responses:
-        '201':
-          description: Rendez-vous créé
-
-    get:
-      tags: [RendezVous]
-      summary: Liste rendez-vous
-      operationId: afficherListeDesRendezVous
-      security: 
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Liste
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RendezVousDTO'
 
   /rendez-vous/{id}:
     get:
@@ -488,8 +502,7 @@ paths:
           content: 
             application/json: 
               schema:
-                items: 
-                  $ref: '#/components/schemas/RendezVousDTO'
+                  $ref: '#/components/schemas/RendezVousDetail'
                   
 
   /rendez-vous/{id}/annuler:
@@ -871,12 +884,44 @@ components:
         date:
           type: string
           format: date
+          example: "2026-04-21"
+        heure:
+          type: string
+          format: time
+          x-java-type: java.time.LocalTime
+          example: "08:30"
+        description:
+          type: string
+        nomClient:
+          type: string  
+        emailClient:
+          type: string
+        telephoneClient: 
+          type: string
+        serviceId:  
+          type: integer
+    
+    RendezVousDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
         heure:
           type: string
         description:
           type: string
+        nomclient:
+          type: string
+        emailClient:
+          type: string
+        telephoneClient:
+          type: string
+        serviceNom:
+          type: string
 
-    RendezVousDTO:
+    RendezVousDetail:
       type: object
       properties:
         date:
@@ -891,6 +936,12 @@ components:
           type: string
         telephoneClient:
           type: string
+        serviceNom:
+          type: string
+        servicePrix:
+          type: number
+        serviceDuree:
+          type: integer  
         statut:
           type: string
           enum:

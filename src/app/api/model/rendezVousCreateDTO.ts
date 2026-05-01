@@ -13,5 +13,9 @@ export interface RendezVousCreateDTO {
     date?: string;
     heure?: string;
     description?: string;
+    nomClient?: string;
+    emailClient?: string;
+    telephoneClient?: string;
+    serviceId?: number;
 }
 

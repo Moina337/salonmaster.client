@@ -29,6 +29,7 @@ model/modifierStatutSalonDTO.ts
 model/motDePasseUpdateDTO.ts
 model/rendezVousCreateDTO.ts
 model/rendezVousDTO.ts
+model/rendezVousDetail.ts
 model/salonDTO.ts
 model/salonDetail.ts
 model/salonInscriptionDTO.ts

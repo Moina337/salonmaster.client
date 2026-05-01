@@ -5,6 +5,7 @@ import { AuthResponse } from '../../api';
 import { ConnexionDTO } from '../../api';
 import { inject} from '@angular/core';
 import { Router } from '@angular/router';
+import { SessionService } from '../../services/session-service';
 
 @Component({
   selector: 'app-connexion',
@@ -23,6 +24,7 @@ export class Connexion {
 
   private authService = inject(AuthService);
   private router = inject(Router);
+   private sessionService = inject(SessionService);
 
   seConnecter() {
   
@@ -32,7 +34,7 @@ export class Connexion {
        
         // Stockez le token dans le localStorage ou utilisez-le selon vos besoins
         if (response.token) {
-          localStorage.setItem('token', response.token);
+          this.sessionService.saveToken(response.token);
           console.log('Token stocké dans localStorage :', response.token);  
           // redirection dans mon salon
            this.router.navigate(['/mon-salon']);

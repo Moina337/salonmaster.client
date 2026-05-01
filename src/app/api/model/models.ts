@@ -9,6 +9,7 @@ export * from './modifierStatutSalonDTO';
 export * from './motDePasseUpdateDTO';
 export * from './rendezVousCreateDTO';
 export * from './rendezVousDTO';
+export * from './rendezVousDetail';
 export * from './salonDTO';
 export * from './salonDetail';
 export * from './salonInscriptionDTO';

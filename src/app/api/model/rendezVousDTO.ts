@@ -10,22 +10,13 @@
 
 
 export interface RendezVousDTO { 
+    id?: string;
     date?: string;
     heure?: string;
     description?: string;
     nomclient?: string;
     emailClient?: string;
     telephoneClient?: string;
-    statut?: RendezVousDTO.StatutEnum;
+    serviceNom?: string;
 }
-export namespace RendezVousDTO {
-    export const StatutEnum = {
-        EnAttente: 'EN_ATTENTE',
-        Confirme: 'CONFIRME',
-        Annule: 'ANNULE',
-        Termine: 'TERMINE'
-    } as const;
-    export type StatutEnum = typeof StatutEnum[keyof typeof StatutEnum];
-}
-
 

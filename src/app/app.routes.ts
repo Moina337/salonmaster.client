@@ -13,11 +13,17 @@ import { Service } from './visiteurPage/service/service';
 import { AjouterHoraire } from './MonSalon/ajouter-horaire/ajouter-horaire';
 import { ModifInfoSalon } from './MonSalon/modif-info-salon/modif-info-salon';
 import { ModifService } from './MonSalon/modif-service/modif-service';
+import { authGuard } from './auth-guard';
+import { guestGuard } from './guest.guard';
+import { RendezVous } from './visiteurPage/rendez-vous/rendez-vous';
+import { ListeRdv } from './MonSalon/liste-rdv/liste-rdv';
+import { RdvDetail } from './MonSalon/rdv-detail/rdv-detail';
 
 export const routes: Routes = [
     {
         path: 'mon-salon',
         component: Sidebar,
+        canActivate: [authGuard],
         children: [
             {
                 path: '',
@@ -42,7 +48,15 @@ export const routes: Routes = [
             {
                 path: 'modif-service/:id',
                 component: ModifService
-            }
+            },
+            {
+                path: 'liste-rdv',
+                component: ListeRdv
+            },
+                {
+                    path: 'rendez-vous/:id',
+                    component: RdvDetail
+                }
 
              
         ]
@@ -62,17 +76,23 @@ export const routes: Routes = [
             {
                 path: 'service/:id',
                 component: Service
-            }    
+            },
+                {
+                    path: 'rendez-vous/:id',
+                    component: RendezVous
+                }  
 
         ]
      },
      {
         path: 'ajouter-salon',
-        component: AjouterSalon
+        component: AjouterSalon,
+        canActivate: [guestGuard]
         },
         {
             path: 'connexion',
-            component: Connexion
+            component: Connexion,
+            canActivate: [guestGuard]
         }
      
 

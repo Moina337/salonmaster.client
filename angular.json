@@ -9,7 +9,6 @@
   "projects": {
     "salonmaster.client": {
       "projectType": "application",
-      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -31,6 +30,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -45,7 +50,20 @@
               ],
               "outputHashing": "all"
             },
+
             "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+
+            "ngrok": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ngrok.ts"
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -53,18 +71,28 @@
           },
           "defaultConfiguration": "production"
         },
+
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": ["all"]
+          },
           "configurations": {
+            "development": {
+              "buildTarget": "salonmaster.client:build:development"
+            },
+
             "production": {
               "buildTarget": "salonmaster.client:build:production"
             },
-            "development": {
-              "buildTarget": "salonmaster.client:build:development"
+
+            "ngrok": {
+              "buildTarget": "salonmaster.client:build:ngrok"
             }
           },
           "defaultConfiguration": "development"
         },
+
         "test": {
           "builder": "@angular/build:unit-test"
         }
