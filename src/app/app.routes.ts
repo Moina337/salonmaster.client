@@ -24,6 +24,7 @@ export const routes: Routes = [
         path: 'mon-salon',
         component: Sidebar,
         canActivate: [authGuard],
+        canActivateChild: [authGuard],
         children: [
             {
                 path: '',

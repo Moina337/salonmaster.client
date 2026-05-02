@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
+import { SessionService } from '../../services/session-service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,11 +11,21 @@ import { RouterOutlet } from '@angular/router';
 export class Sidebar {
   isMobileMenuOpen = false;
 
+  constructor(
+    private sessionService: SessionService,
+    private router: Router
+  ) {}
+
   toggleMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
   closeMenu() {
     this.isMobileMenuOpen = false;
+  }
+
+  Deconnecter() {
+    this.sessionService.logout(); 
+    this.router.navigate(['/connexion']);
   }
 }

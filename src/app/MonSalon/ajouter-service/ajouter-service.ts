@@ -37,11 +37,19 @@ export class AjouterService {
   }
 
   ajouterService() {
+
     // Appel de la méthode avec l'objet service et le tableau d'images
     this.serviceApi.ajouterUneService(this.serviceData, this.selectedImages).subscribe({
       next: (response) => {
-        console.log('Service ajouté avec succès :', response);
-        // Reset ou redirection ici
+        alert('Service ajouté avec succès !');
+        // EFFACE LES CHAMPS DU FORMULAIRE APRÈS L'AJOUT
+        this.serviceData = {
+          nom: '',
+          description: '',
+          prix: 0,
+          duree: 0
+        };
+        this.selectedImages = [];
       },
       error: (error) => {
         console.error('Erreur lors de l\'ajout du service :', error);

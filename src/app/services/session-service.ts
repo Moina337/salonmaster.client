@@ -31,7 +31,7 @@ export class SessionService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/connexion']);
-  }
+  localStorage.removeItem('token');
+}
+
 }
