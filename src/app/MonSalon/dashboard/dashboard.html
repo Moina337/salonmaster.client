@@ -133,7 +133,7 @@
       <div class="relative group overflow-hidden" style="aspect-ratio:4/3;">
         <!-- http://localhost:8080/uploads/ + salon()?.images -->
         <img
-          [src]="'http://localhost:8080/uploads/' + salon()?.images"
+          [src]="salon()?.images"
           [alt]="salon()?.nom"
           class="w-full h-full object-cover" />
 
@@ -227,8 +227,7 @@
             <!-- service.images?.[0]?.nom -->
             <div class="h-44 overflow-hidden bg-stone-200 relative">
               <img
-                [src]="'imageProfilePath' + service.images?.[0]?.nom
-                  || 'https://via.placeholder.com/400x300?text=Pas+d%27image'"
+                [src]="service.images?.[0]?.nom"
                 [alt]="service.nom"
                 class="w-full h-full object-cover
                        group-hover:scale-105 transition-transform duration-500" />

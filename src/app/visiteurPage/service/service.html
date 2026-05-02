@@ -49,7 +49,7 @@
 
       @if (service()?.images && service()?.images!.length > 0) {
         <img
-          [src]="'http://localhost:8080/uploads/' + service()?.images![0].nom"
+          [src]="service()?.images![0].nom"
           [alt]="service()?.nom"
           class="w-full h-full object-cover absolute inset-0" />
         <!-- Overlay bas -->
@@ -155,7 +155,7 @@
 
           <!-- http://localhost:8080/uploads/ + img.nom -->
           <img
-            [src]="'http://localhost:8080/uploads/' + img.nom"
+            [src]="img.nom"
             [alt]="service()?.nom"
             class="w-full h-full object-cover
                    group-hover:scale-105 transition-transform duration-500" />
