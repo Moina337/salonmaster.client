@@ -7,6 +7,7 @@ import { SalonDetail } from '../../api';
 import { signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -22,6 +23,8 @@ export class Dashboard {
 
   salon = signal<SalonDetail | null>(null);
 
+  // recuperer le chemain de l'image de profil du salon
+  imageProfilePath = environment.uploadUrl;
   ngOnInit() {
     this.loadSalon();
   }

@@ -227,7 +227,7 @@
             <!-- service.images?.[0]?.nom -->
             <div class="h-44 overflow-hidden bg-stone-200 relative">
               <img
-                [src]="'http://localhost:8080/uploads/' + service.images?.[0]?.nom
+                [src]="'imageProfilePath' + service.images?.[0]?.nom
                   || 'https://via.placeholder.com/400x300?text=Pas+d%27image'"
                 [alt]="service.nom"
                 class="w-full h-full object-cover
