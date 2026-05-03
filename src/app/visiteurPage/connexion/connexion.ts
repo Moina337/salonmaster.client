@@ -6,13 +6,16 @@ import { ConnexionDTO } from '../../api';
 import { inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from '../../services/session-service';
+import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-connexion',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './connexion.html',
   styleUrl: './connexion.css',
 })
+
 export class Connexion {
   connexionDTO: ConnexionDTO = {
     email: '',
@@ -26,25 +29,33 @@ export class Connexion {
   private router = inject(Router);
    private sessionService = inject(SessionService);
 
-  seConnecter() {
-  
-    this.authService.connexion(this.connexionDTO).subscribe({
-      next: (response: AuthResponse) => {
-        console.log('Connexion réussie :', response);
-       
-        // Stockez le token dans le localStorage ou utilisez-le selon vos besoins
-        if (response.token) {
-          this.sessionService.saveToken(response.token);
-          console.log('Token stocké dans localStorage :', response.token);  
-          // redirection dans mon salon
-           this.router.navigate(['/mon-salon']);
-        }
-         
-      },
-      error: (error) => {
-        console.error('Erreur lors de la connexion :', error);
-        this.errorMessage = 'Échec de la connexion. Veuillez vérifier vos informations.';
+  loading: boolean = false;
+
+seConnecter() {
+
+ this.loading = true;
+this.errorMessage = '';
+
+this.authService.connexion(this.connexionDTO)
+  .pipe(
+    finalize(() => {
+      this.loading = false; // 🔥 TOUJOURS exécuté
+    })
+  )
+  .subscribe({
+    next: (res) => {
+      if (res.token) {
+        this.sessionService.saveToken(res.token);
+        this.router.navigate(['/mon-salon']);
       }
-    });
-  }
+    },
+
+    error: (err) => {
+
+      this.loading = false;
+      this.errorMessage = err?.error?.message ;
+      console.error('Erreur de connexion :', err);
+    }
+  });
+}
 }
